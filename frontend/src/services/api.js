@@ -106,14 +106,29 @@ export const apiService = {
         body: JSON.stringify(bookingData)
       });
       if (res.ok) return await res.json();
+      const err = await res.json();
+      console.warn('Booking API error:', err);
     } catch (e) {
       console.warn('Backend offline, returning mock booking creation');
     }
     return {
-      id: `FM-${Math.floor(1000 + Math.random() * 9000)}`,
+      bookingId: `FM-${Math.floor(1000 + Math.random() * 9000)}`,
       ...bookingData,
-      status: 'Requested'
+      status: 'REQUESTED'
     };
+  },
+
+  updateBookingStatus: async (bookingId, status) => {
+    try {
+      const res = await fetch(`${BASE_URL}/bookings/${bookingId}/status?status=${status}`, {
+        method: 'PUT',
+        headers: getAuthHeaders()
+      });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Backend offline, returning mock status update');
+    }
+    return { bookingId, status };
   },
 
   // Maintenance Reminders
@@ -123,6 +138,28 @@ export const apiService = {
 
   // Society Bookings
   getSocietyBookings: async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/society-bookings`, {
+        headers: getAuthHeaders()
+      });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Backend offline, returning mock society bookings');
+    }
     return mockSocietyBookings;
+  },
+
+  joinSocietyBooking: async (id, customerId = 1) => {
+    try {
+      const res = await fetch(`${BASE_URL}/society-bookings/${id}/join?customerId=${customerId}`, {
+        method: 'POST',
+        headers: getAuthHeaders()
+      });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn('Backend offline, returning mock join response');
+    }
+    return { success: true, id };
   }
 };
+

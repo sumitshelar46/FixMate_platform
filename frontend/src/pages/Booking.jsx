@@ -18,15 +18,20 @@ export default function Booking({ selectedService, selectedProvider, setCurrentP
     e.preventDefault();
     setLoading(true);
     const newBooking = await apiService.createBooking({
-      serviceName: service.name,
+      customerId: 1,
+      providerId: provider?.id || provider?.providerId || 1,
+      serviceId: service?.id || service?.serviceId || 1,
+      bookingDate: date ? `${date}T10:00:00` : new Date().toISOString().slice(0, 19),
+      address,
+      emergencyFlag: emergency,
+      status: 'REQUESTED',
+      // UI Display fallbacks
+      serviceName: service.name || service.serviceName,
       category: service.category,
       providerName: provider.name,
       providerPhone: provider.phone,
-      date,
       time,
-      address,
-      emergency,
-      amount: service.price + (emergency ? 100 : 0)
+      amount: (service.price || 499) + (emergency ? 100 : 0)
     });
     setLoading(false);
     setTrackedBooking(newBooking);

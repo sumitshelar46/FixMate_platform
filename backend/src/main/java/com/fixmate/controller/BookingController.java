@@ -52,3 +52,4 @@ public class BookingController {
         return ResponseEntity.notFound().build();
     }
 }
+

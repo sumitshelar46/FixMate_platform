@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Building, ShieldCheck, Tag, CheckCircle2, ArrowRight } from 'lucide-react';
 import { mockSocietyBookings } from '../data/mockData';
+import { apiService } from '../services/api';
 
 export default function CommunityBooking({ setCurrentPage }) {
   const [joined, setJoined] = useState({});
+  const [groups, setGroups] = useState(mockSocietyBookings);
 
-  const handleJoin = (id) => {
+  useEffect(() => {
+    const fetchSocietyBookings = async () => {
+      const data = await apiService.getSocietyBookings();
+      if (Array.isArray(data) && data.length > 0) {
+        setGroups(data);
+      }
+    };
+    fetchSocietyBookings();
+  }, []);
+
+  const handleJoin = async (id) => {
     setJoined(prev => ({ ...prev, [id]: true }));
+    await apiService.joinSocietyBooking(id, 1);
   };
 
   return (

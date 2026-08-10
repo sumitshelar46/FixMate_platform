@@ -40,4 +40,41 @@ public class SocietyBooking {
 
     @Column(name = "discount_percentage")
     private Integer discountPercentage = 15;
+
+    public SocietyBooking() {}
+
+    public SocietyBooking(Long societyBookingId, User customer, ServiceEntity service, Integer membersCount, LocalDate bookingDate, String status, String societyName, Integer discountPercentage) {
+        this.societyBookingId = societyBookingId;
+        this.customer = customer;
+        this.service = service;
+        this.membersCount = membersCount;
+        this.bookingDate = bookingDate;
+        this.status = status;
+        this.societyName = societyName;
+        this.discountPercentage = discountPercentage;
+    }
+
+    public Long getSocietyBookingId() { return societyBookingId; }
+    public void setSocietyBookingId(Long societyBookingId) { this.societyBookingId = societyBookingId; }
+
+    public User getCustomer() { return customer; }
+    public void setCustomer(User customer) { this.customer = customer; }
+
+    public ServiceEntity getService() { return service; }
+    public void setService(ServiceEntity service) { this.service = service; }
+
+    public Integer getMembersCount() { return membersCount; }
+    public void setMembersCount(Integer membersCount) { this.membersCount = membersCount; }
+
+    public LocalDate getBookingDate() { return bookingDate; }
+    public void setBookingDate(LocalDate bookingDate) { this.bookingDate = bookingDate; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getSocietyName() { return societyName; }
+    public void setSocietyName(String societyName) { this.societyName = societyName; }
+
+    public Integer getDiscountPercentage() { return discountPercentage; }
+    public void setDiscountPercentage(Integer discountPercentage) { this.discountPercentage = discountPercentage; }
 }
